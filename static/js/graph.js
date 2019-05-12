@@ -5,6 +5,10 @@ queue()
 function makeGraphs(error, salaryData) {
     var ndx = crossfilter(salaryData);
     
+    salaryData.forEach(function(d){
+        d.salary = parseInt(d.salary);
+    })
+    
     show_discipline_selector(ndx);
     show_gender_balance(ndx);
     show_average_salaries(ndx);
@@ -65,4 +69,19 @@ function show_average_salaries(ndx) {
     }
     
     var averageSalaryByGender = dim.group().reduce(add_item, remove_item, initialise);
+    
+    dc.barChart("#average-salary")
+        .width(400)
+        .height(300)
+        .margins({top: 10, right: 50, bottom: 30, left: 50})
+        .dimension(dim)
+        .group(averageSalaryByGender)
+        .valueAccessor(function(d){
+            return d.value.average.toFixed(1);
+        })
+        .transitionDuration(500)
+        .x(d3.scale.ordinal())
+        .xUnits(dc.units.ordinal)
+        .xAxisLabel("Gender")
+        .yAxis().ticks(4);
 }
