@@ -7,9 +7,13 @@ function makeGraphs(error, salaryData) {
     
     salaryData.forEach(function(d){
         d.salary = parseInt(d.salary);
-    })
+    });
     
     show_discipline_selector(ndx);
+    
+    show_percent_that_are_professors(ndx, "Female", "#percent-of-women-professors");
+    show_percent_that_are_professors(ndx, "Male", "#percent-of-men-professors");
+    
     show_gender_balance(ndx);
     show_average_salaries(ndx);
     show_rank_distribution(ndx);
@@ -17,6 +21,8 @@ function makeGraphs(error, salaryData) {
     dc.renderAll();
 }
 
+
+/* --- DISCIPLINE SELECTOR --- */
 function show_discipline_selector(ndx) {
     var dim = ndx.dimension(dc.pluck('discipline'));
     var group = dim.group();
@@ -26,6 +32,47 @@ function show_discipline_selector(ndx) {
         .group(group);
 }
 
+
+/* --- PERCENT THAT ARE PROFESSORS --- */
+function show_percent_that_are_professors(ndx, gender, element) {
+    var percentageThatAreProf = ndx.groupAll().reduce(
+        function(p, v) {
+            if (v.sex === gender) {
+                p.count++;
+                if (v.rank === "Prof") {
+                    p.are_prof++;
+                }
+            }
+            return p;
+        },
+        function(p, v) {
+            if (v.sex === gender) {
+                p.count--;
+                if (v.rank === "Prof") {
+                    p.are_prof--;
+                }
+            }
+            return p;
+        },
+        function() {
+            return {count: 0, are_prof: 0};
+        }
+    );
+    
+    dc.numberDisplay(element)
+        .formatNumber(d3.format(".2%"))
+        .valueAccessor(function (d) {
+            if (d.count == 0) {
+                return 0;
+            } else {
+                return (d.are_prof / d.count);
+            }
+        })
+        .group(percentageThatAreProf);
+}
+
+
+/* --- GENDER BALANCE --- */
 function show_gender_balance(ndx) {
     var dim = ndx.dimension(dc.pluck('sex'));
     var group = dim.group();
@@ -43,6 +90,8 @@ function show_gender_balance(ndx) {
         .yAxis().ticks(20);
 }
 
+
+/* --- AVERAGE SALARIES --- */
 function show_average_salaries(ndx) {
     var dim = ndx.dimension(dc.pluck('sex'));
     
@@ -87,6 +136,8 @@ function show_average_salaries(ndx) {
         .yAxis().ticks(4);
 }
 
+
+/* --- RANK DISTRIBUTION --- */
 function show_rank_distribution(ndx) {
     
     function rankByGender (dimension, rank) {
@@ -134,14 +185,4 @@ function show_rank_distribution(ndx) {
         .xUnits(dc.units.ordinal)
         .legend(dc.legend().x(320).y(20).itemHeight(15).gap(5))
         .margins({top: 10, right: 100, bottom: 30, left: 30});
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
