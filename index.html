@@ -17,23 +17,52 @@
     <script type="text/javascript" src="static/js/graph.js"></script>
 </head>
 <body>
-    
-    <h1>Gender In Academia</h1>
-    
-    <div id="discipline-selector"></div>
-    
-    <div id="gender-balance"></div>
-    
-    <div id="average-salary"></div>
-    
-    <div id="rank-distribution"></div>
-    
-    <div id="percent-of-women-professors" class="number-box"></div>
-    <div id="percent-of-men-professors" class="number-box"></div>
-    
-    <div id="service-salary"></div>
-    
-    <div id="phd-salary"></div>
-    
+    <div class="container">
+        
+        <div class="row">
+            <h1>Gender In Academia</h1>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-offset-5">Select Discipline</div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-5" id="discipline-selector"></div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">Less than half of the female academics in the study are Professors</div>
+            <div class="col-md-6">A majority of the male academics are at the Professor level</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 number-box" id="percent-of-women-professors"></div>
+            <div class="col-md-6 number-box" id="percent-of-men-professors"></div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4">Men outnumber Women 10 to 1</div>
+            <div class="col-md-4">Men earn on average 10% more</div>
+            <div class="col-md-4">Distribution of ranks is weighted towards the upper level for Men</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4" id="gender-balance"></div>
+            <div class="col-md-4" id="average-salary"></div>
+            <div class="col-md-4" id="rank-distribution"></div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-offset-2">There appears to be little/No correlation between years of service and salary</div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-2" id="service-salary"></div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-offset-2">There is a very loose correlation between salary and years since receiving PhD</div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-2" id="phd-salary"></div>
+        </div>
+    </div>
 </body>
 </html>
